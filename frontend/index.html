@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Munder Difflin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css?v=2.0">
+</head>
+<body>
+  <div class="desktop-app">
+    <!-- Top Window Titlebar -->
+    <header class="titlebar">
+      <div class="titlebar-left">
+        <img src="/static/assets/logo-Dm_T1Oil.png" alt="Munder Difflin" class="app-logo" />
+        <span class="app-name">Munder Difflin</span>
+        <span class="app-version">v0.4.3</span>
+        <span class="app-badge">auto mode on</span>
+      </div>
+      <div class="titlebar-right">
+        <!-- 2D Office Visual Toggle Button -->
+        <button class="win-btn visual-toggle-btn active" id="btn-toggle-visual-top" onclick="if(window.toggleVisualMode)window.toggleVisualMode();" title="Toggle 2D Office Visual (ON/OFF)">
+          <span class="vt-icon">🏢</span> <span class="vt-text">Visual: ON</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Split -->
+    <div class="workspace-split" id="workspace-split">
+      <!-- Left: 2D Pixel Art Office Canvas -->
+      <div class="office-viewport" id="office-viewport">
+        <div class="canvas-wrapper" id="canvas-wrapper">
+          <canvas id="office-canvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Right: Inspector & Terminal Panel -->
+      <aside class="sidebar-inspector" id="sidebar-inspector">
+        <!-- Selected Agent Header -->
+        <div class="agent-profile-header">
+          <div class="profile-avatar" id="inspector-avatar">
+            <canvas id="inspector-avatar-canvas" width="36" height="56"></canvas>
+          </div>
+          <div class="profile-details">
+            <div class="profile-name-row">
+              <span class="profile-name" id="inspector-name">KELLY</span>
+              <span class="profile-status-badge" id="inspector-status-badge">
+                <span class="status-square">■</span> <span id="inspector-status-text">idle</span>
+              </span>
+            </div>
+            <div class="profile-path" id="inspector-path">C:\Users\Codex_boy\Desktop\WAR\AI Agent\Research Agent</div>
+          </div>
+          <div class="profile-actions">
+            <button class="btn-micro active" id="btn-toggle-visual-pane" onclick="if(window.toggleVisualMode)window.toggleVisualMode();" title="Toggle 2D Office Visual ON/OFF"><span class="pane-vt-icon">👁️</span> visual</button>
+          </div>
+        </div>
+
+
+
+        <!-- Master Research Hive Progress Bar -->
+        <div class="hive-progress-strip">
+          <div class="hive-progress-header">
+            <span class="hive-progress-title">HIVE PIPELINE PROGRESS</span>
+            <span class="hive-progress-pct" id="master-progress-pct">0%</span>
+          </div>
+          <div class="hive-progress-bar-wrap">
+            <div class="hive-progress-fill" id="master-progress-fill" style="width: 0%;"></div>
+          </div>
+          <div class="hive-progress-stage" id="master-progress-label">System Idle • Awaiting Research Directive</div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="inspector-tabs cth-tabbar">
+          <button class="tab-btn active" data-tab="dossier">📑 DOSSIER</button>
+          <button class="tab-btn" data-tab="gaps">🎯 GAPS</button>
+          <button class="tab-btn" data-tab="integrity">🛡️ INTEGRITY</button>
+          <button class="tab-btn" data-tab="conflicts">⚡ CONFLICTS</button>
+          <button class="tab-btn" data-tab="evidence">📊 EVIDENCE</button>
+        </nav>
+
+        <!-- Tab Content 1: Research Dossier Viewer (Primary Active Tab) -->
+        <div class="tab-content active" id="tab-dossier">
+          <div class="dossier-scroll cth-md-preview" id="dossier-output">
+            <div class="dossier-empty">
+              <h3>NO ACTIVE RESEARCH DOSSIER</h3>
+              <p>Type a research directive into the <strong>QUEUE</strong> below or select a preset and click <strong>send ➔</strong>.</p>
+              <div class="quick-presets">
+                <button class="preset-tag" data-q="Scalable Multi-Agent Autonomous Coordination with Sparse Graph Attention">Multi-Agent RAG</button>
+                <button class="preset-tag" data-q="Quantum Computing NISQ Benchmarks and Combinatorial Optimization">Quantum NISQ</button>
+                <button class="preset-tag" data-q="Enterprise Multi-Agent Spending and Local Hardware Economics">Market Economics</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Content 2: Research Gap Radar -->
+        <div class="tab-content" id="tab-gaps">
+          <div class="intel-scroll" id="gaps-output">
+            <div class="intel-empty">
+              <h3>🎯 RESEARCH GAP RADAR</h3>
+              <p>Execute research to synthesize Method, Dataset, Deployment, and Evaluation gaps with Gap Priority Scores.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Content 3: Retraction & Integrity Guardian -->
+        <div class="tab-content" id="tab-integrity">
+          <div class="intel-scroll" id="integrity-output">
+            <div class="intel-empty">
+              <h3>🛡️ INTEGRITY &amp; REPRODUCIBILITY GUARDIAN</h3>
+              <p>Retraction Watch monitoring, Safe-to-Cite verification, and 5-factor explainable reproducibility scoring.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Content 4: Contradiction & Consensus Engine -->
+        <div class="tab-content" id="tab-conflicts">
+          <div class="intel-scroll" id="conflicts-output">
+            <div class="intel-empty">
+              <h3>⚡ CONTRADICTION &amp; CONSENSUS ENGINE</h3>
+              <p>Identifies empirical polarity, consensus meters, and divergence root causes across literature.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Content 5: Claim-to-Evidence Matrix -->
+        <div class="tab-content" id="tab-evidence">
+          <div class="intel-scroll" id="evidence-output">
+            <div class="intel-empty">
+              <h3>📊 CLAIM-TO-EVIDENCE MATRIX</h3>
+              <p>Deterministic Article 13 traceability linking claims directly to paper sections, quotes, and DOIs.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Queue / Prompt Input -->
+        <div class="queue-section">
+          <div class="queue-label">QUEUE</div>
+          <div class="queue-input-wrap">
+            <textarea id="queue-input" rows="2" placeholder="Message Kelly"></textarea>
+          </div>
+          <div class="queue-actions">
+            <button class="btn-send" id="btn-send">send ➔</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Bottom Agent Roster Shelf (Matches the 6 Decorator Agents) -->
+    <footer class="agent-dock">
+      <!-- 1. The Boss (@boss) -->
+      <div class="dock-card" data-agent="The_Boss">
+        <canvas class="dock-portrait-canvas" id="portrait-michael" width="36" height="56"></canvas>
+        <div class="dock-info">
+          <div class="dock-name-row">
+            <span class="dock-name">MICHAEL</span>
+            <span class="dock-tag-boss">BOSS</span>
+            <span class="dock-status" id="dock-status-boss"><span class="status-dot">■</span> idle</span>
+          </div>
+          <div class="agent-mini-progress">
+            <div class="agent-mini-bar-wrap"><div class="agent-mini-bar-fill" id="dock-prog-fill-boss" style="width: 0%;"></div></div>
+            <span class="agent-mini-pct" id="dock-prog-pct-boss">0%</span>
+          </div>
+          <div class="dock-subtext">@boss • Synthesis</div>
+        </div>
+      </div>
+
+      <!-- 2. Jim (@discovery_agent) -->
+      <div class="dock-card" data-agent="Dr_Arxiv">
+        <canvas class="dock-portrait-canvas" id="portrait-jim" width="36" height="56"></canvas>
+        <div class="dock-info">
+          <div class="dock-name-row">
+            <span class="dock-name">JIM</span>
+            <span class="dock-tag-academic">DISCOVERY</span>
+            <span class="dock-status" id="dock-status-jim"><span class="status-dot">■</span> idle</span>
+          </div>
+          <div class="agent-mini-progress">
+            <div class="agent-mini-bar-wrap"><div class="agent-mini-bar-fill" id="dock-prog-fill-jim" style="width: 0%;"></div></div>
+            <span class="agent-mini-pct" id="dock-prog-pct-jim">0%</span>
+          </div>
+          <div class="dock-subtext">@discovery_agent • RRF</div>
+        </div>
+      </div>
+
+      <!-- 3. Dwight (@integrity_guardian) -->
+      <div class="dock-card" data-agent="Vera_Audit">
+        <canvas class="dock-portrait-canvas" id="portrait-dwight" width="36" height="56"></canvas>
+        <div class="dock-info">
+          <div class="dock-name-row">
+            <span class="dock-name">DWIGHT</span>
+            <span class="dock-tag-auditor">INTEGRITY</span>
+            <span class="dock-status" id="dock-status-dwight"><span class="status-dot">■</span> idle</span>
+          </div>
+          <div class="agent-mini-progress">
+            <div class="agent-mini-bar-wrap"><div class="agent-mini-bar-fill" id="dock-prog-fill-dwight" style="width: 0%;"></div></div>
+            <span class="agent-mini-pct" id="dock-prog-pct-dwight">0%</span>
+          </div>
+          <div class="dock-subtext">@integrity_guardian • Watch</div>
+        </div>
+      </div>
+
+      <!-- 4. Kelly (@gap_analyst) -->
+      <div class="dock-card selected" data-agent="Data_Dex">
+        <canvas class="dock-portrait-canvas" id="portrait-kelly" width="36" height="56"></canvas>
+        <div class="dock-info">
+          <div class="dock-name-row">
+            <span class="dock-name">KELLY</span>
+            <span class="dock-tag-worker">GAP RADAR</span>
+            <span class="dock-status" id="dock-status-kelly"><span class="status-dot">■</span> idle</span>
+          </div>
+          <div class="agent-mini-progress">
+            <div class="agent-mini-bar-wrap"><div class="agent-mini-bar-fill" id="dock-prog-fill-kelly" style="width: 0%;"></div></div>
+            <span class="agent-mini-pct" id="dock-prog-pct-kelly">0%</span>
+          </div>
+          <div class="dock-subtext">@gap_analyst • Market</div>
+        </div>
+      </div>
+
+      <!-- 5. Pam (@reproducibility_inspector) -->
+      <div class="dock-card" data-agent="Pam_Reproduce">
+        <canvas class="dock-portrait-canvas" id="portrait-pam" width="36" height="56"></canvas>
+        <div class="dock-info">
+          <div class="dock-name-row">
+            <span class="dock-name">PAM</span>
+            <span class="dock-tag-repro">REPRO RUBRIC</span>
+            <span class="dock-status" id="dock-status-pam"><span class="status-dot">■</span> idle</span>
+          </div>
+          <div class="agent-mini-progress">
+            <div class="agent-mini-bar-wrap"><div class="agent-mini-bar-fill" id="dock-prog-fill-pam" style="width: 0%;"></div></div>
+            <span class="agent-mini-pct" id="dock-prog-pct-pam">0%</span>
+          </div>
+          <div class="dock-subtext">@reproducibility • 5-Factor</div>
+        </div>
+      </div>
+
+      <!-- 6. Ryan (@contradiction_engine) -->
+      <div class="dock-card" data-agent="Ryan_Consensus">
+        <canvas class="dock-portrait-canvas" id="portrait-ryan" width="36" height="56"></canvas>
+        <div class="dock-info">
+          <div class="dock-name-row">
+            <span class="dock-name">RYAN</span>
+            <span class="dock-tag-conflict">CONSENSUS</span>
+            <span class="dock-status" id="dock-status-ryan"><span class="status-dot">■</span> idle</span>
+          </div>
+          <div class="agent-mini-progress">
+            <div class="agent-mini-bar-wrap"><div class="agent-mini-bar-fill" id="dock-prog-fill-ryan" style="width: 0%;"></div></div>
+            <span class="agent-mini-pct" id="dock-prog-pct-ryan">0%</span>
+          </div>
+          <div class="dock-subtext">@contradiction_engine • Claims</div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Authentic scripts: avatar generator loaded first -->
+  <script src="/static/assets/avatar-generator.js?v=2.0"></script>
+  <script src="/static/office-canvas.js?v=2.0"></script>
+  <script src="/static/app.js?v=2.0"></script>
+</body>
+</html>

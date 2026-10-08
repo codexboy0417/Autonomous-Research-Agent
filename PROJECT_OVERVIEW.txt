@@ -1,0 +1,206 @@
+================================================================================
+MUNDER DIFFLIN - DECORATOR MULTI-AGENT RESEARCH HIVE
+COMPLETE PROJECT DOCUMENTATION & ARCHITECTURE OVERVIEW
+Generated: October 2026
+================================================================================
+
+1. PROJECT OVERVIEW & GOAL (OBJECTIVE)
+--------------------------------------------------------------------------------
+Is project ka main maksad ek aisa Autonomous Multi-Agent Web System create karna hai 
+jo popular desktop application "Munder Difflin" ke exact retro pixel-art aesthetic, 
+character animations aur office floor simulation ko match kare, lekin backend me 
+kisi ungrounded LLM ke bina PURE PYTHON DECORATORS (@boss, @employee) aur 
+LOCAL VECTOR RAG (FAISS + Cross-Encoder Reranker) par chale.
+
+Core Highlights:
+- 100% Free & Local (0 API Keys required)
+- Exact 1-to-1 character matching with Python decorators
+- High-DPI Canvas Rendering (Zero blur on Windows scaled displays)
+- Living Office Simulation (idle wandering, coffee, pantry, dustbin, pranks)
+- 5-Phase Task Choreography (Manager cabin -> Desks -> Red Chair Room -> Dossier)
+
+
+================================================================================
+2. AAB TAK KYA KYA HUA HAI AUR KAISE SOLVE KIYA GAYA (DEVELOPMENT HISTORY)
+================================================================================
+
+[A] ASSET EXTRACTION & ANALYSIS
+--------------------------------
+1. Original desktop application `C:\Users\Codex_boy\AppData\Local\Programs\Munder Difflin` 
+   ke `app.asar` archive ko decode karke authentic assets extract kiye gaye:
+   - `office-map.json`: 34x22 Tiled map (16x16 tile grid)
+   - `office-tileset-CHQT-uYL.png`: Desks, chairs, walls, office accessories
+   - `a5-floors-walls.png`: Hardwood, carpets, hallway floors
+   - `interiors-CQGBjffT.png`: Pantry counters, coffee machines, monitors
+   - `avatar-generator.js`: Authentic procedural pixel-art character generator
+
+[B] TEXT BLUR & CANVAS RESOLUTION FIX
+--------------------------------------
+1. Problem: Canvas low-resolution backing store par CSS ke through stretch ho raha tha, 
+   jiski wajah se saara text aur graphics blur/fuzzy dikh rahe the.
+2. Root Cause: Windows OS ka display scaling (125%-150%) aur standard canvas resolution mismatch.
+3. Solution Applied:
+   - Canvas internal backing store device ke physical pixel ratio (`devicePixelRatio >= 2.0`) 
+     ke barabar set kiya gaya: `canvas.width = clientWidth * dpr`.
+   - Map rendering ko integer 2x retro pixel scaling par lock kiya gaya (`imageSmoothingEnabled = false`).
+   - Native DOM fonts me `Inter` aur `JetBrains Mono` define karke `-webkit-font-smoothing: antialiased` 
+     lagaya gaya, jisse text 100% razor-sharp render hone laga.
+
+[C] DESK SEATING & KEYBOARD OVERLAP (CHOPPED HEADS FIX)
+-------------------------------------------------------
+1. Problem: Desks par baithe characters ke chehre par keyboard tile aa rahi thi aur unke 
+   gale cut gaye the (Screenshot: media_1791144530358.png).
+2. Root Cause: `furniture-above` layer characters ke baad draw ho rahi thi, aur PC desks 
+   par character facing direction `down` tha jabki monitor upar (North) tha.
+3. Solution Applied:
+   - Saari tile layers (`furniture-above` samet) characters se PEHLE draw hoti hain.
+   - PC workstations (Jim, Kelly, Dwight) par seating facing direction `up` (monitor ki taraf) 
+     set kiya gaya.
+   - Leg cropping (`crop = 4px`) ke sath characters naturally chair par baith kar monitor 
+     par type karte hain.
+   - Michael CEO cabin me `down` face karke table ke peeche upright baithta hai.
+
+[D] ANTI-COLLISION SPEECH BUBBLES FIX
+-------------------------------------
+1. Problem: Do paas-paas baithe characters ke speech bubbles ek doosre ke upar overlap ho rahe the.
+2. Solution Applied:
+   - Engine me `Anti-Collision Overlap Resolver` add kiya gaya.
+   - Sabhi active bubbles ke screen coordinates aur dimensions calculate hote hain.
+   - Agar do bubbles aapas me takraate hain, to ek bubble doosre ke theek upar vertically stack 
+     ho jaata hai (`by = other.by - bubbleH - 4px`).
+
+[E] LIVING OFFICE LIFE (RANDOM WANDERING & ERRANDS)
+--------------------------------------------------
+1. Characters office me aapas me ghoomte aur natural activities karte hain:
+   - Kelly: Breakroom pantry me hot coffee banati hai ("the coffee here is a hug") ya vending machine se snacks leti hai.
+   - Jim: Dustbin me paper ball phenkta hai ("three-pointer! yes!"), plants ko paani deta hai, Dwight par prank karta hai.
+   - Dwight: Office corridor me security patrol karta hai ("FALSE. Security is tight.") aur fridge inspect karta hai ("this fridge needs a beet drawer").
+   - Michael: CEO window par khada hota hai ("that's what she said", "World's Best Boss mug") aur cabin plant ko paani deta hai.
+
+[F] 5-PHASE RESEARCH MISSION CHOREOGRAPHY
+-----------------------------------------
+1. Phase 1 (Manager Cabin Me Task Analysis):
+   User se query milte hi Michael ke charo taraf golden focus aura pulse karta hai:
+   `"Task received! Analyzing & dividing directives..."`
+2. Phase 2 (Employees Gather in Manager Cabin for Briefing):
+   Michael call deta hai: `"Team meeting in my cabin! Come get your tasks."`
+   Jim, Kelly aur Dwight sabhi Michael ke CEO cabin me aate hain aur directives samajhte hain.
+3. Phase 3 (Desks Par Baith Kar Deep RAG Work):
+   Teeno employees apne respective PC desks (PC-1, PC-2, PC-3) par jaate hain aur chair par 
+   baith kar FAISS vector retrieval aur cross-encoding audit execute karte hain.
+4. Phase 4 (Red Chair Room / Boardroom Assembly):
+   Research complete hote hi sabhi 4 agents Boardroom (8 Red Chairs wala Conference Room) 
+   me aate hain aur conference table ke charo taraf gather hote hain:
+   Michael: `"Dossier synthesized and approved! World’s Best Boss."`
+   Dwight: `"Audit passed! Groundedness: 100% verified."`
+5. Phase 5 (Dossier Output Display):
+   Verified dossier markdown report UI ke `📑 DOSSIER` tab me render hoti hai. Celebration 
+   ke baad sabhi wapas apne natural office life routine me chale jaate hain.
+
+
+================================================================================
+3. PROJECT FOLDER & FILE STRUCTURE
+================================================================================
+
+c:\Users\Codex_boy\Desktop\WAR\AI Agent\Research Agent\
+│
+├── backend/
+│   ├── decorators.py    # @boss & @employee decorators, OfficeEventBus, AgentRegistry
+│   ├── rag_engine.py    # Local FAISS Vector Store (IndexFlatIP), Embeddings, Reranker
+│   ├── agents.py        # 4 Decorated Office Agents & Master Research Pipeline
+│   └── server.py        # FastAPI server, SSE stream (/api/office/events), REST APIs
+│
+├── frontend/
+│   ├── index.html       # Retro UI markup, Header, Canvas wrapper, Inspector, Dock
+│   ├── style.css        # Paper & Ink tokens, high-contrast typography, brutalist UI
+│   ├── office-canvas.js # Canvas 2D engine, BFS pathfinding, office life & choreography
+│   ├── app.js           # Frontend controller, SSE listener, tab router, research trigger
+│   └── assets/
+│       ├── avatar-generator.js          # Procedural pixel-art generator for all characters
+│       ├── office-map.json              # 34x22 Tiled map with collision & spawn points
+│       ├── office-tileset-CHQT-uYL.png  # Furniture, desks, monitors, walls tileset
+│       ├── a5-floors-walls.png          # Floor wood & carpet tileset
+│       ├── interiors-CQGBjffT.png       # Pantry, coffee counter, interior props
+│       └── logo-Dm_T1Oil.png            # Retro Munder Difflin app logo
+│
+├── run.py               # Python server runner with auto port-binding & browser launch
+├── start.bat            # One-click Windows batch launcher
+└── PROJECT_OVERVIEW.txt # Complete system documentation (this file)
+
+
+================================================================================
+4. HOW THINGS WORK UNDER THE HOOD (TECHNICAL ARCHITECTURE)
+================================================================================
+
+[1] DECORATOR-DRIVEN BACKEND ARCHITECTURE (decorators.py & agents.py):
+-----------------------------------------------------------------------
+- `@boss(name="The_Boss", role="Executive Research Director", desk_id=0)`:
+  Ye decorator function ko executive director declare karta hai. Jab query aati hai, ye 
+  query ko academic aur market sub-tasks me decompose karta hai aur final report synthesize karta hai.
+- `@employee(name="...", role="...", desk_id=..., collection="...")`:
+  Ye decorator employee functions ko bind karta hai:
+  * Dr_Arxiv (Jim Halpert): `academic_papers` collection se research retrieve karta hai.
+  * Data_Dex (Kelly Kapoor): `market_intelligence` collection se commercial metrics nikaalti hai.
+  * Vera_Audit (Dwight Schrute): Evidence ka adversarial fact-checking audit karta hai.
+
+[2] LOCAL VECTOR RAG ENGINE (rag_engine.py):
+---------------------------------------------
+- FAISS `IndexFlatIP` (CPU Inner Product / Cosine Similarity):
+  Har collection memory me indexed vector space rakhti hai.
+- DenseEmbeddingModel:
+  128-dimensional dense projection jo query aur documents ko fast embedding me convert karta hai.
+- CrossEncoderReranker:
+  Top candidate chunks ko deep semantic relevance ke basis par bi-directional re-score karta hai.
+
+[3] REAL-TIME PUB/SUB EVENT STREAM (server.py & decorators.py):
+---------------------------------------------------------------
+- `OfficeEventBus`: Async in-memory pub/sub queue.
+- Har agent ka action (`status="thinking"`, `"walking"`, `"retrieving"`, `"done"`) 
+  ek `AgentEvent` object banta hai.
+- FastAPI ka endpoint `/api/office/events` is event stream ko Server-Sent Events (SSE) 
+  ke format me browser ke `EventSource` ko real-time me bhejta hai.
+
+[4] 2D CANVAS GAME ENGINE & PATHFINDING (office-canvas.js):
+----------------------------------------------------------
+- Map Collision Grid:
+  `office-map.json` ki collision layer ko 34x22 boolean grid me parse kiya jaata hai.
+- Breadth-First Search (BFS) Pathfinding:
+  Jab koi agent point A se point B jaata hai, BFS algorithm corridors ke through shortest 
+  walkable path find karta hai. Koi bhi character walls ya furniture ke aar-paar clip nahi karta.
+- Walking Speed:
+  48 pixels/second speed par smooth delta-time movement chalti hai.
+- High-DPI Drawing Pipeline:
+  Device pixel density (`dpr >= 2`) par canvas scale hota hai. Tile layers pehle draw hoti hain, 
+  characters unke upar draw hote hain, aur anti-collision speech bubbles sabse upar float karte hain.
+
+
+================================================================================
+5. API KEYS STATUS
+================================================================================
+Current Requirement: 0 API KEYS (100% Local & Free).
+- Vector DB: Local CPU FAISS
+- Embeddings: Local Mathematical Projection
+- Reranker: Local Scorer Engine
+- Real-time Sync: Local FastAPI SSE Bus
+- Graphics: Local Procedural Pixel Canvas
+
+
+================================================================================
+6. HOW TO RUN & VERIFY
+================================================================================
+1. Terminal me run karein:
+   python run.py
+   (ya start.bat par double-click karein)
+2. Browser open karein:
+   http://127.0.0.1:8000
+3. Browser me `Ctrl + F5` dabakar hard refresh karein.
+4. Characters ko naturally ghoomte, coffee pite aur office life enjoy karte dekhein.
+5. Bottom-right me `QUEUE` box me prompt daalein ya preset button click karein:
+   - Manager cabin meeting trigger hogi.
+   - Desks par deep RAG execution chalega.
+   - Red Chair Room (Boardroom) me final assembly hogi.
+   - Verified Dossier 📑 tab me report show ho jayegi!
+
+================================================================================
+END OF DOCUMENTATION
+================================================================================
