@@ -1,0 +1,17 @@
+{
+  "name": "autonomous-research-agent",
+  "version": "1.0.0",
+  "description": "Autonomous Multi-Agent Research and Scientific Intelligence Hive",
+  "scripts": {
+    "dev": "python run.py",
+    "start": "python run.py"
+  },
+  "keywords": [
+    "ai-agent",
+    "multi-agent",
+    "research",
+    "rag"
+  ],
+  "author": "Ashit Upadhyay",
+  "license": "MIT"
+}
